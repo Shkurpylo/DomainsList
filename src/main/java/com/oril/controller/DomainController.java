@@ -1,5 +1,7 @@
 package com.oril.controller;
 
+import com.oril.exceptions.LookupException;
+import com.oril.exceptions.ServiceUnavailableException;
 import com.oril.service.DomainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
 import java.util.List;
 import com.oril.model.Domain;
 
@@ -30,9 +33,15 @@ public class DomainController {
     public ModelAndView addingDomain(@ModelAttribute Domain domain) {
 
         ModelAndView modelAndView = new ModelAndView("home");
-        domainService.addDomain(domain);
-        String message = "Domain was successfully added.";
-        modelAndView.addObject("message", message);
+        try {
+            domainService.addDomain(domain);
+            String message = "Domain was successfully added.";
+            modelAndView.addObject("message", message);
+
+        } catch (IOException | ServiceUnavailableException | LookupException ex){
+            String message = "Sorry, domain was not added because verification failed with next exception: " + ex.getMessage();
+            modelAndView.addObject("message", message);
+        }
 
         return modelAndView;
     }
@@ -58,12 +67,20 @@ public class DomainController {
     @RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
     public ModelAndView edditingDomain(@ModelAttribute Domain domain, @PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("home");
-        domainService.updateDomain(domain);
-        String message = "Domain was successfully edited.";
-        modelAndView.addObject("message", message);
+
+        try {
+            domainService.updateDomain(domain);
+            String message = "Domain was successfully edited.";
+            modelAndView.addObject("message", message);
+
+        } catch (IOException | ServiceUnavailableException | LookupException ex){
+            String message = "Sorry, domain was not added because verification failed with next exception: " + ex.getMessage();
+            modelAndView.addObject("message", message);
+        }
 
         return modelAndView;
     }
+
 
     @RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
     public ModelAndView deleteDomain(@PathVariable Integer id) {

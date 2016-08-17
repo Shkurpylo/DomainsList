@@ -24,6 +24,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
 public class WebAppConfig {
+    private static final String PROPERTY_NAME_HIBERNATE_PROPERTY = "hibernate.hbm2ddl.auto";
+
     private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
     private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
     private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
@@ -59,6 +61,7 @@ public class WebAppConfig {
 
     private Properties hibProperties() {
         Properties properties = new Properties();
+        properties.put(PROPERTY_NAME_HIBERNATE_PROPERTY, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_PROPERTY));
         properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
         properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
         return properties;

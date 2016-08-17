@@ -1,8 +1,11 @@
 package com.oril.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.oril.dao.DomainDAO;
+import com.oril.exceptions.LookupException;
+import com.oril.exceptions.ServiceUnavailableException;
 import com.oril.model.Domain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +19,21 @@ public class DomainServiceImpl implements DomainService {
     private DomainDAO domainDAO;
 
 
-    public void addDomain(Domain domain) {
+    public void addDomain(Domain domain) throws IOException,  ServiceUnavailableException,  LookupException {
+
+        boolean isSafety = new DomainVerificationImpl().lookupURL(domain.getName());
+        domain.setStatus(isSafety ? "NOT in the blacklist" : "in the blacklist");
         domainDAO.addDomain(domain);
 
     }
 
-    public void updateDomain(Domain domain) {
+    public void updateDomain(Domain domain) throws IOException,  ServiceUnavailableException,  LookupException   {
+
+        boolean isSafety = new DomainVerificationImpl().lookupURL(domain.getName());
+        domain.setStatus(isSafety ? "NOT in the blacklist" : "in the blacklist");
+        //} catch (IOException | ServiceUnavailableException | LookupException ex) {
+            //this.status = "empty";
+        //}
         domainDAO.updateDomain(domain);
 
     }

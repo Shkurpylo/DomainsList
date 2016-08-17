@@ -2,7 +2,6 @@ package com.oril.service;
 
 import com.oril.exceptions.LookupException;
 import com.oril.exceptions.ServiceUnavailableException;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

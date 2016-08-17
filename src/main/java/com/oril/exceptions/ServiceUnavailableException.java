@@ -1,7 +1,7 @@
 package com.oril.exceptions;
 
 /**
- * If service is not available.
+ *   If service is not available.
  */
 
 public class ServiceUnavailableException extends Exception {
