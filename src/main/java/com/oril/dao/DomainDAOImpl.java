@@ -20,7 +20,6 @@ public class DomainDAOImpl implements DomainDAO {
     }
 
     public void addDomain(Domain domain) {
-        //domain.setStatus();
         getCurrentSession().save(domain);
 
     }
