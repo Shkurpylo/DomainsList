@@ -31,9 +31,6 @@ public class DomainServiceImpl implements DomainService {
 
         boolean isSafety = new DomainVerificationImpl().lookupURL(domain.getName());
         domain.setStatus(isSafety ? "NOT in the blacklist" : "in the blacklist");
-        //} catch (IOException | ServiceUnavailableException | LookupException ex) {
-            //this.status = "empty";
-        //}
         domainDAO.updateDomain(domain);
 
     }
